@@ -5,9 +5,14 @@ const app = express();
 const port = 3000;
 const cookieParser = require('cookie-parser')
 const authRouter = require('../src/Routers/AuthRouter')
+const cors = require('cors');
 
 dotenv.config()
 connectDB()
+app.use(cors({
+    origin:"*",
+    credentials:true
+}))
 
 app.use(cookieParser())
 app.use(express.json());

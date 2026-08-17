@@ -2,7 +2,6 @@ const connectDB = require('./database/connectDB')
 const dotenv = require('dotenv')
 const express = require("express");
 const app = express();
-const port = 3000;
 const cookieParser = require('cookie-parser')
 const authRouter = require('./Routers/AuthRouter')
 const cors = require('cors');

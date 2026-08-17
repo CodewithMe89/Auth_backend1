@@ -9,6 +9,7 @@ const cors = require('cors');
 
 dotenv.config()
 connectDB()
+
 app.use(cors({
     origin:"*",
     credentials:true

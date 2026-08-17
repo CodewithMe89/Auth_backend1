@@ -1,13 +1,15 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
+const dotenv = require('dotenv');
+const validator = require('validator')
 const User = require('../Models/UserSchema');
 const {validateSignupData} = require('../utility/dataValidaton')
-const jwt = require('jsonwebtoken')
-const authRouter = express.Router()
 const {userAuth} = require('../middlewares/auth')
-const validator = require('validator')
-const dotenv = require('dotenv');
+
 dotenv.config()
+
+const authRouter = express.Router()
 //signup route
 authRouter.post('/signup', async (req, res) => {
     try {

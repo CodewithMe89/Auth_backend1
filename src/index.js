@@ -10,7 +10,7 @@ dotenv.config()
 connectDB()
 
 app.use(cors({
-    origin:"*",
+    origin:"https://bala-ji-cloth-store.vercel.app/",
     credentials:true
 }))
 

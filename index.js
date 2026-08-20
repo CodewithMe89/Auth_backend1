@@ -10,7 +10,7 @@ const cors = require('cors');
 dotenv.config()
 connectDB()
 app.use(cors({
-    origin:"*",
+    origin:"https://balajiclothstore-q2u2_5173_017acf.b7.local-credentials.webcontainer.io",
     credentials:true
 }))
 

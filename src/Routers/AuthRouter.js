@@ -51,7 +51,12 @@ authRouter.post('/signin', async (req, res) => {
 
         const token = await jwt.sign({id:user._id},process.env.secretKey)
         //store the generated token in cookie 
-        res.cookie("token",token)
+        res.cookie("token",token,{
+            httpOnly:true,
+            secure:true,
+            sameSite: "none",
+
+        })
 
         res.status(200).json({message: "User signed In successfully!", user})
     }

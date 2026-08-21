@@ -5,12 +5,28 @@ const app = express();
 const port = 3000;
 const cookieParser = require('cookie-parser')
 const authRouter = require('./src/Routers/AuthRouter')
-const cors = require('cors');
 
+const cors = require('cors');
+const allowedOrigins = [
+    "https://bala-ji-cloth-store.vercel.app",
+    "https://balajiclothstore-q2u2--5173--017acfb7.local-credentialless.webcontainer.io/"
+]
 dotenv.config()
 connectDB()
+
 app.use(cors({
-    origin:"https://bala-ji-cloth-store.vercel.app",
+    origin: function (origin,callback){
+        if(!origin) return callback(null,true);
+
+        if(allowedOrigins.includes(origin)){
+            return callback(null,true);
+        }
+
+         if (/\.webcontainer\.io$/.test(new URL(origin).hostname)) {
+            return callback(null, true);
+        }
+        callback(new Error("Not allowed by CORS"));
+    },
     credentials:true
 }))
 

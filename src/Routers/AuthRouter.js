@@ -77,13 +77,13 @@ authRouter.post('/logout', async (req, res) => {
 authRouter.get('/profile', async (req, res) => {
     const {token} = req.cookies;
     if(!token){
-        throw new Error("User not logged in!")
+        return res.status(401).json({err:"User not logged in!"})
     }
     //validate the token
     const {id} = await jwt.verify(token,process.env.secretKey)
     const profile = await User.findOne({_id:id});
     if (!profile) {
-        return res.status(404).json({ err: "User not Logged in" })
+        return res.status(404).json({ err: "User not found" })
     }
     res.status(200).json({message: "Profile fetched Successfully!", profile})
 })

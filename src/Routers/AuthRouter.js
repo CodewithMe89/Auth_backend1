@@ -67,9 +67,9 @@ authRouter.post('/signin', async (req, res) => {
 
 //logout route
 authRouter.post('/logout', async (req, res) => {
-    res.cookie("token",null),{
+    res.cookie("token",null ,{
         expires:new Date(Date.now())
-    }
+    });
     res.status(200).json({message:"Logout Done Successfully!"})
 })
 
@@ -111,14 +111,16 @@ authRouter.patch('/profile', userAuth, async (req, res) => {
         const {_id} = req.user
        
         const { firstName, lastName, email, password,gender} = req.body;
-        const passwordHash = await bcrypt.hash(password, 10);
-        const updatedProfile = await User.findByIdAndUpdate(_id, {
-            firstName,
-            lastName,
-            email,
-            password:passwordHash,
-            gender
-        },{new:true,runValidators:true})
+
+        const updatedFields = {firstName,lastName,email,gender};
+
+        if(password && password.trim() !== ""){
+            updatedFields.password = await bcrypt.hash(password,10);
+        }
+
+        const updatedProfile = await User.findByIdAndUpdate(_id,updatedFields,{
+            new: true, runValidators: true
+        })
 
         if(!updatedProfile){
             return res.status(404).json({err:"User not found!"})
@@ -126,7 +128,7 @@ authRouter.patch('/profile', userAuth, async (req, res) => {
         res.status(200).json({message:"Profile Updated Successfully!", updatedProfile})
     }
     catch (err) {
-        res.status(500).josn({ err: "failed to update profile!",err:err.message })
+        res.status(500).json({ err: "failed to update profile!",err:err.message })
     }
 })
 module.exports = authRouter

@@ -12,28 +12,33 @@ const allowedOrigins = [
     "https://balajiclothstore-q2u2--5173--017acfb7.local-credentialless.webcontainer.io/"
 ]
 dotenv.config()
-connectDB()
+const starterServer = async () => {
+    await connectDB();
+
+    app.listen(port, () => {
+        console.log(`Server is running on port ${port}`)
+    })
+}
+
+starterServer();
 
 app.use(cors({
-    origin: function (origin,callback){
-        if(!origin) return callback(null,true);
+    origin: function (origin, callback) {
+        if (!origin) return callback(null, true);
 
-        if(allowedOrigins.includes(origin)){
-            return callback(null,true);
+        if (allowedOrigins.includes(origin)) {
+            return callback(null, true);
         }
 
-         if (/\.webcontainer\.io$/.test(new URL(origin).hostname)) {
+        if (/\.webcontainer\.io$/.test(new URL(origin).hostname)) {
             return callback(null, true);
         }
         callback(new Error("Not allowed by CORS"));
     },
-    credentials:true
+    credentials: true
 }))
 
 app.use(cookieParser())
 app.use(express.json());
 app.use('/', authRouter);
 
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`)
-})

@@ -55,7 +55,7 @@ authRouter.post('/signin', async (req, res) => {
             httpOnly:true,
             secure:true,
             sameSite: "none",
-
+            path:"/"
         })
 
         res.status(200).json({message: "User signed In successfully!", user})
@@ -70,7 +70,8 @@ authRouter.post('/logout', async (req, res) => {
     res.clearCookie("token",{
         httpOnly:true,
         secure:true,
-        samesite:"none",
+        sameSite:"none",
+        path:"/"
     });
     res.status(200).json({message:"Logout Done Successfully!"})
 })
